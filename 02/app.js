@@ -26,7 +26,8 @@ var person = {
     age: 40,
     hobbies: ['cooking', 'music'],
     roles: [2, 'author'],
-    infoAuthor: ['Stephen', 43, 120.99] // tuple with 3 elements
+    infoAuthor: ['Stephen', 43, 120.99],
+    toConvert: 'as-num'
 };
 console.log(person.age);
 var favoritesNum = [1, 2, 4];
@@ -54,14 +55,26 @@ var myroles = {
 };
 console.log('ADMIN is ', myroles.id);
 console.log('2 X USER is ', idRoles.USER * 2);
-//////   Union type
-function combine(n1, n2) {
-    if (typeof n1 == 'number' && typeof n2 == 'number') {
-        return n1 + n2;
+function combine(n1, n2, t) {
+    if (typeof n1 == 'number' && typeof n2 == 'number' || t === 'as-num') {
+        return +n1 + +n2;
     }
     else {
         return n1.toString() + n2.toString();
     }
 }
-console.log(combine(5, 8));
-console.log(combine('5', 'Max'));
+console.log(combine(5, 8, person.toConvert));
+console.log(combine('5', 'Max', 'as-txt'));
+/// Functions
+function addReturn(n1, n2) {
+    return n1 + n2;
+}
+function printVoid(n1) {
+    console.log('Result adding is ' + n1);
+}
+printVoid(addReturn(8, 10));
+var combineNum;
+combineNum = addReturn;
+combineNum(8, 4);
+combineNum = printVoid;
+combineNum(12);

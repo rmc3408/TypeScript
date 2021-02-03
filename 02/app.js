@@ -1,9 +1,12 @@
 /*
 *
-*             Types
+*                                 Types
 *
 *      number, string, boolean, array, tuple, object, enum, any
+*
+*
 **/
+
 // types boolean, number , string
 function add(n1, n2, isP, msg) {
     var sum = n1 + n2;

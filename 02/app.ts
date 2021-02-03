@@ -75,4 +75,17 @@ console.log('ADMIN is ', myroles.id);
 console.log('2 X USER is ', idRoles.USER * 2);
 
 
-// 
+//////   Union type
+
+
+function combine(n1: number | string, n2: number | string) {
+    if (typeof n1 == 'number' && typeof n2 == 'number') {
+        return n1 + n2;
+    }
+    else {
+        return n1.toString() + n2.toString();
+    }
+}
+
+console.log(combine(5, 8));
+console.log(combine('5', 'Max'));

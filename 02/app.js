@@ -2,6 +2,7 @@
 *
 *             Types
 *
+*      number, string, boolean, array, tuple, object, enum, any
 **/
 // types boolean, number , string
 function add(n1, n2, isP, msg) {
@@ -20,6 +21,7 @@ var text = 'The result is ';
 add(number1, number2, isNumber, text);
 // types object and Arrays and tuples
 var person = {
+    id: 'anyCode',
     name: 'Max',
     age: 40,
     hobbies: ['cooking', 'music'],
@@ -52,3 +54,14 @@ var myroles = {
 };
 console.log('ADMIN is ', myroles.id);
 console.log('2 X USER is ', idRoles.USER * 2);
+//////   Union type
+function combine(n1, n2) {
+    if (typeof n1 == 'number' && typeof n2 == 'number') {
+        return n1 + n2;
+    }
+    else {
+        return n1.toString() + n2.toString();
+    }
+}
+console.log(combine(5, 8));
+console.log(combine('5', 'Max'));

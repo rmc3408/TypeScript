@@ -13,6 +13,8 @@ function add(n1: number, n2: number, isP: boolean, msg: string) {
     else console.log(msg + 'a text');
 
 }
+let myTxt: string = 'hello';
+myTxt = 'hi';
 
 let number1: number;
 number1 = 5;

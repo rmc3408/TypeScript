@@ -42,7 +42,7 @@ var acc2 = {
     name: 'Warehouse',
     describe: acc.describe
 };
-//acc2.describe();
+//acc2.describe(); // if name is a private field it wont access from outside class.
 var acc3 = {
     name: 'Shippping',
     described: acc.describe

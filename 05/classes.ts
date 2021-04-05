@@ -24,9 +24,6 @@ class Department {
     printEmp() {
         console.log(this.employees);
     }
-
-
-
 }
 
 const acc = new Department("financial");
@@ -53,7 +50,7 @@ const acc2 = {
     name: 'Warehouse',
     describe: acc.describe 
 }
-//acc2.describe();
+//acc2.describe(); // if name is a private field it wont access from outside class.
 
 const acc3 = {
     name: 'Shippping',

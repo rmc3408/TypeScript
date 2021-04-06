@@ -39,3 +39,7 @@ function countPrint(c) {
 console.log(countPrint('hello'));
 console.log(countPrint([1, 2, 3]));
 console.log(countPrint(''));
+function extractKey(obj, key) {
+    return 'value of key is ' + obj[key];
+}
+console.log(extractKey({ name: 'Raph' }, 'name'));

@@ -57,3 +57,11 @@ interface wordLen {
 console.log(countPrint('hello'));
 console.log(countPrint([1, 2, 3]));
 console.log(countPrint(''));
+
+
+function extractKey<T extends object, U extends keyof T>(obj: T, key: U) {
+    return 'value of key is ' + obj[key];
+}
+
+console.log(extractKey({ name: 'Raph' }, 'name'));
+

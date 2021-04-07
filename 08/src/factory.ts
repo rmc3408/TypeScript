@@ -37,7 +37,7 @@ class Persona {
 
 
 // Property decorator
-function Log(target: any, name: string) {
+function Log1(target: any, name: string) {
     console.log('Log Property decorator executed');
     console.log(target, name)
 }
@@ -50,10 +50,11 @@ function Log2(target: any, name: string, desc: PropertyDescriptor) {
 }
 
 //acessor Decorator
-function Log3(target: any, name: string, desc: PropertyDescriptor) {
+function Log3(target: any, name: string, desc: PropertyDescriptor): PropertyDescriptor {
     console.log('Method decorator executed');
     console.log(target, name)
     console.log(desc);
+    return { enumerable: true };
 }
 
 //Parameter Decorator
@@ -64,7 +65,7 @@ function Log4(target: any, name: string, indexPosition: number) {
 }
 
 class Product {
-    @Log
+    @Log1
     private title: string;
     private _price: number;
 

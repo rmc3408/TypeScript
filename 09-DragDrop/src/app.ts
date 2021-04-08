@@ -204,7 +204,10 @@ class ProjectList {
         this.listEl = this.sectionEl.querySelector('ul')! as HTMLUListElement;
 
         myApp.addListener((prjs: Array<Project>) => {
-            this.assignedPrjs = prjs;
+            const activeProjects = prjs.filter(p => p.status === ProjectStatus.active);
+            const finishedProjects = prjs.filter(p => p.status === ProjectStatus.finished);
+            const loadProjects = (this.opt === 'active') ? activeProjects : finishedProjects;
+            this.assignedPrjs = loadProjects;
             this.renderProjects();
         });
 
@@ -224,8 +227,7 @@ class ProjectList {
     }
 
     private renderProjects() {
-        //const sectionEl = document.querySelector('ul')! as HTMLUListElement;
-        //sections.querySelector('ul')!.id = `${this.opt}-projects-list`;
+        this.listEl.innerHTML = '';
         for (let item of this.assignedPrjs) {
             const listItem = document.createElement('li');
             listItem.textContent = item.title;

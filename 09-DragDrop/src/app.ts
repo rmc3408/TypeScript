@@ -1,3 +1,47 @@
+type newProject = {
+    id: string,
+    title: string,
+    desc: string,
+    people: number
+}
+
+class ProjectState {
+    private projects: Array<any> = [];
+    private static instance: ProjectState;
+    private listeners: any[] = [];
+
+    constructor() {
+    }
+
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new ProjectState();
+        return this.instance; 
+        
+    }
+
+    addListener(listFn: Function) {
+        this.listeners.push(listFn);
+    }
+
+    addProjects(t: string, d: string, p: number) {
+        const newP: newProject = {
+            id: Math.random().toString(),
+            title: t,
+            desc: d,
+            people: p
+        };
+        this.projects.push(newP);
+        for (let eachFn of this.listeners) {
+            eachFn(this.projects.slice());
+        }
+    }
+}
+
+const myApp: ProjectState = ProjectState.getInstance();
+
 interface validatable {
     value: string | number;
     required?: boolean;
@@ -6,6 +50,7 @@ interface validatable {
     minNum?: number;
     maxNum?: number;
 }
+
 function validate(input: validatable) {
     let isValid = true;
     if (input.required && typeof input.value === 'string') {
@@ -25,7 +70,6 @@ function validate(input: validatable) {
     }
     return isValid;
 }
-
 
 function Autobind(_1: any, _2: string, desc: PropertyDescriptor) {
     const origFn = desc.value;
@@ -106,16 +150,14 @@ class ProjectInput {
         //console.log(resultTitle, resultdesc, resultpeople);
 
         if (resultTitle && resultdesc && resultpeople) {
-            console.log(tripleUser);
+            //console.log(tripleUser);
+            myApp.addProjects(t, d, p);
             this.clearForm();
             return tripleUser;
         } else {
             alert('Please, check the values!');
             return null;
         }
-
-
-        
     }
 
     private clearForm() {
@@ -135,4 +177,60 @@ class ProjectInput {
 
 }
 
+class ProjectList {
+    templateEl: HTMLTemplateElement;
+    hostEl: HTMLDivElement;
+    sectionEl: HTMLElement;
+
+    titleEl: HTMLHeadingElement;
+    listEl: HTMLUListElement;
+
+    private assignedPrjs: newProject[] = [];
+
+    constructor(private opt: 'active' | 'finished') {
+        this.hostEl = document.getElementById('app')! as HTMLDivElement;
+        this.templateEl = document.getElementById('project-list')! as HTMLTemplateElement;
+        const bigNode = document.importNode(this.templateEl.content, true);
+
+        //get first element = <FORM>
+        this.sectionEl = bigNode.firstElementChild as HTMLElement;
+        this.sectionEl.id = `${this.opt}-projects`;
+        
+        this.titleEl = this.sectionEl.querySelector('h2')! as HTMLHeadingElement;
+        this.listEl = this.sectionEl.querySelector('ul')! as HTMLUListElement;
+
+        myApp.addListener((prjs: newProject[]) => {
+            this.assignedPrjs = prjs;
+            this.renderProjects();
+        });
+
+        this.attach();
+        this.renderHeader();
+
+    }
+
+
+    private attach() {
+        this.hostEl.insertAdjacentElement('beforeend', this.sectionEl);
+    }
+    private renderHeader() {
+        this.titleEl.id = `${this.opt}-projects-list`;
+        this.sectionEl.querySelector('ul')!.id = `${this.opt}-projects-list`;
+        this.titleEl.innerHTML = `${this.opt} projects`.toUpperCase();
+    }
+
+    private renderProjects() {
+        //const sectionEl = document.querySelector('ul')! as HTMLUListElement;
+        //sections.querySelector('ul')!.id = `${this.opt}-projects-list`;
+        for (let item of this.assignedPrjs) {
+            const listItem = document.createElement('li');
+            listItem.textContent = item.title;
+            this.listEl.appendChild(listItem);
+        }
+    }
+
+}
+
 const prj1 = new ProjectInput();
+const prjList1 = new ProjectList('active');
+const prjList2 = new ProjectList('finished');

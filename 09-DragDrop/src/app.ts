@@ -1,14 +1,23 @@
-type newProject = {
-    id: string,
-    title: string,
-    desc: string,
-    people: number
+
+enum ProjectStatus { active, finished }
+
+class Project {
+
+    constructor(public id: string,
+        public title: string,
+        public desc: string,
+        public people: number,
+        public status: ProjectStatus ) {    
+    }
 }
 
+type ListenerT = (items: Project[]) => void;
+
+
 class ProjectState {
-    private projects: Array<any> = [];
+    private projects: Array<Project> = [];
     private static instance: ProjectState;
-    private listeners: any[] = [];
+    private listeners: ListenerT[] = [];
 
     constructor() {
     }
@@ -22,17 +31,12 @@ class ProjectState {
         
     }
 
-    addListener(listFn: Function) {
+    addListener(listFn: ListenerT) {
         this.listeners.push(listFn);
     }
 
     addProjects(t: string, d: string, p: number) {
-        const newP: newProject = {
-            id: Math.random().toString(),
-            title: t,
-            desc: d,
-            people: p
-        };
+        const newP: Project = new Project(Math.random().toString(), t, d, p, ProjectStatus.active );
         this.projects.push(newP);
         for (let eachFn of this.listeners) {
             eachFn(this.projects.slice());
@@ -185,7 +189,7 @@ class ProjectList {
     titleEl: HTMLHeadingElement;
     listEl: HTMLUListElement;
 
-    private assignedPrjs: newProject[] = [];
+    private assignedPrjs: Project[] = [];
 
     constructor(private opt: 'active' | 'finished') {
         this.hostEl = document.getElementById('app')! as HTMLDivElement;
@@ -199,7 +203,7 @@ class ProjectList {
         this.titleEl = this.sectionEl.querySelector('h2')! as HTMLHeadingElement;
         this.listEl = this.sectionEl.querySelector('ul')! as HTMLUListElement;
 
-        myApp.addListener((prjs: newProject[]) => {
+        myApp.addListener((prjs: Array<Project>) => {
             this.assignedPrjs = prjs;
             this.renderProjects();
         });

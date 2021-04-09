@@ -91,8 +91,8 @@ function Autobind(_1: any, _2: string, desc: PropertyDescriptor) {
     return newFn;
 }
 
-//BaseClass
-abstract class Component<T extends HTMLTemplateElement, U extends HTMLDivElement, S extends HTMLElement> {
+// BaseClass
+abstract class Component <T extends HTMLTemplateElement, U extends HTMLDivElement, S extends HTMLElement> {
     templateEl: T;
     hostEl: U;
     sectionEl: S;
@@ -115,7 +115,30 @@ abstract class Component<T extends HTMLTemplateElement, U extends HTMLDivElement
     abstract renderHeader(): void;
 }
 
-class ProjectInput extends Component<HTMLTemplateElement, HTMLDivElement, HTMLElement>{
+
+class ProjectItem extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> {
+    private project: Project;
+
+    constructor(hostID: string, proj: Project) {
+        super('single-project', hostID, false, proj.id);
+        this.project = proj;
+
+        this.configure();
+        this.renderHeader();
+    }
+
+    configure() {
+
+
+    }
+    renderHeader() {
+        this.sectionEl.querySelector('h2')!.textContent = this.project.title;
+        this.sectionEl.querySelector('h3')!.textContent = this.project.people.toString();
+        this.sectionEl.querySelector('p')!.textContent = this.project.desc;
+    }
+}
+
+class ProjectInput extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> {
     titleEl: HTMLInputElement;
     descriptionEl: HTMLInputElement;
     peopleEl: HTMLInputElement;
@@ -185,7 +208,7 @@ class ProjectInput extends Component<HTMLTemplateElement, HTMLDivElement, HTMLEl
 
 }
 
-class ProjectList extends Component<HTMLTemplateElement, HTMLDivElement, HTMLElement> {    
+class ProjectList extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> {    
     
     titleEl: HTMLHeadingElement;
     listEl: HTMLUListElement;
@@ -213,19 +236,20 @@ class ProjectList extends Component<HTMLTemplateElement, HTMLDivElement, HTMLEle
     }
 
     renderProjects() {
-        this.listEl.innerHTML = '';
+        const listProject = this.sectionEl.querySelector(`#${this.opt}-projects-list`)! as HTMLUListElement;
+        listProject.innerHTML = '';
         for (let item of this.assignedPrjs) {
-            const listItem = document.createElement('li');
-            listItem.textContent = item.title;
-            this.listEl.appendChild(listItem);
+            new ProjectItem(this.listEl.id, item);
+            
+            //const listItem = document.createElement('li');
+            //listItem.textContent = item.title;
+            //this.listEl.appendChild(listItem);
         }
     }
 
     renderHeader() {
-        this.titleEl.id = `${this.opt}-projects-list`;
-        this.titleEl.innerHTML = `${this.opt} projects`.toUpperCase();
-
         this.listEl.id = `${this.opt}-projects-list`;
+        this.titleEl.textContent = `${this.opt} projects`.toUpperCase();        
     }
 }
 

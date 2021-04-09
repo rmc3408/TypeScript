@@ -1,3 +1,14 @@
+/// Drag & drop interfaces
+interface Dragable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
+
 
 enum ProjectStatus { active, finished }
 
@@ -44,6 +55,20 @@ class ProjectState extends State<Project>{
             eachFn(this.projects.slice());
         }
     }
+
+    moveProject(pid: string, newStatus: ProjectStatus) {
+        const isFoundProject = this.projects.find(p => p.id === pid);
+        if (isFoundProject) {
+            isFoundProject.status = newStatus;
+            this.updateListeners();
+        }
+    }
+    updateListeners() {
+        for (let eachFn of this.listeners) {
+            eachFn(this.projects.slice());
+        }
+    }
+
 }
 
 const myApp: ProjectState = ProjectState.getInstance();
@@ -116,8 +141,18 @@ abstract class Component <T extends HTMLTemplateElement, U extends HTMLDivElemen
 }
 
 
-class ProjectItem extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> {
+class ProjectItem extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> implements Dragable {
     private project: Project;
+
+    
+    get people(): string {
+        if (this.project.people === 1) {
+            return 'Person';
+        } else {
+            return 'People';
+        }
+    }
+    
 
     constructor(hostID: string, proj: Project) {
         super('single-project', hostID, false, proj.id);
@@ -127,15 +162,29 @@ class ProjectItem extends Component <HTMLTemplateElement, HTMLDivElement, HTMLEl
         this.renderHeader();
     }
 
-    configure() {
-
-
+    @Autobind
+    dragStartHandler(event: DragEvent) {
+        //console.log('Drag Event start');
+        event.dataTransfer!.setData('text/plain', this.project.id);
+        event.dataTransfer!.effectAllowed = 'move';
     }
+
+    dragEndHandler(_: DragEvent) {
+        //console.log('Drag event End');
+    }
+
+    configure() {
+        this.sectionEl.addEventListener('dragstart', this.dragStartHandler);
+        this.sectionEl.addEventListener('dragend', this.dragEndHandler);
+    }
+
+    
     renderHeader() {
         this.sectionEl.querySelector('h2')!.textContent = this.project.title;
-        this.sectionEl.querySelector('h3')!.textContent = this.project.people.toString();
+        this.sectionEl.querySelector('h3')!.textContent = this.project.people.toString() + ' ' + this.people + ' assigned';
         this.sectionEl.querySelector('p')!.textContent = this.project.desc;
     }
+
 }
 
 class ProjectInput extends Component <HTMLTemplateElement, HTMLDivElement, HTMLElement> {
@@ -181,8 +230,8 @@ class ProjectInput extends Component <HTMLTemplateElement, HTMLDivElement, HTMLE
         const peopleValidatable: validatable = {
             value: p,
             required: true,
-            minNum: 2,
-            maxNum: 9
+            minNum: 0,
+            maxNum: 5
         }
         const resultTitle = validate(titleValidatable);
         const resultdesc = validate(descriptionValidatable);
@@ -225,7 +274,30 @@ class ProjectList extends Component <HTMLTemplateElement, HTMLDivElement, HTMLEl
         this.renderHeader();
     }
 
+    @Autobind
+    dragOverHandler(evt: DragEvent) {
+        if (evt.dataTransfer && evt.dataTransfer.types[0] === 'text/plain') {
+            evt.preventDefault();
+            this.listEl.classList.add('droppable');
+        }
+    }
+
+    @Autobind
+    dropHandler(evt: DragEvent) {
+        const movable = evt.dataTransfer!.getData('text/plain');
+        myApp.moveProject(movable, this.opt === 'active' ? ProjectStatus.active : ProjectStatus.finished);
+    }
+
+    @Autobind
+    dragLeaveHandler(_: DragEvent) {
+        this.listEl.classList.remove('droppable');
+    }
+
     configure() {
+        this.sectionEl.addEventListener('dragover', this.dragOverHandler);
+        this.sectionEl.addEventListener('dragleave', this.dragLeaveHandler);
+        this.sectionEl.addEventListener('drop', this.dropHandler);
+
         myApp.addListener((prjs: Array<Project>) => {
             const activeProjects = prjs.filter(p => p.status === ProjectStatus.active);
             const finishedProjects = prjs.filter(p => p.status === ProjectStatus.finished);

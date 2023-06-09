@@ -1,5 +1,11 @@
 # TypeScript and Javascript
 
+## [Advanced Javascript 2023](https://www.youtube.com/watch?v=kGbbPBRFCE0&list=PL-R1FQNkywO4sD42B6OI6KjG3uOPT0aNl)
+<b> Created by Brazilian Dev </b><br>
+<i> 6.16 hours </i>
+
+
+
 ## [Understanding TypeScript 2021](https://www.udemy.com/course/understanding-typescript/)
 ![title](./und-typescript.png)
 

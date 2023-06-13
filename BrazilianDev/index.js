@@ -1,9 +1,14 @@
 /**
  * Run the following files in order
  */
-
 //console.log("\n-------- ProtoTypes --------------")
 //require("./prototypes")
+
+//console.log("\n-------- Spread and Rest --------------")
+require("./restSpread")
+
+//console.log("\n-------- Try Catch  --------------")
+//require("./tryCatch")
 
 //console.log("\n-------- Async - Await --------------")
 //require("./AsyncAwait")
@@ -31,6 +36,9 @@
 
 //console.log("\n-------- IIFE FUNCTION --------------")
 //require("./IIFE")
+
+//console.log("\n-------- Arguments --------------")
+//require("./arguments")
 
 //console.log("\n-------- FOR ... OF LOOP --------------")
 //require("./Loops")

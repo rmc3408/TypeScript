@@ -7,7 +7,7 @@
 
 
 ## [Understanding TypeScript 2021](https://www.udemy.com/course/understanding-typescript/)
-![title](./und-typescript.png)
+![title](./understanding-typescript/und-typescript.png)
 
 <b> Created by Maximillian </b><br>
 <i> 15 hours </i>
@@ -37,7 +37,7 @@ Section | Name  | Duration(min)
 <br>
 
 ## [JavaScript: The Advanced Concepts (2022 Update)](https://www.udemy.com/course/advanced-javascript-concepts/)
-![title](./adv-javascript.png)
+![title](./advanced-javascript/adv-javascript.png)
 <b> Created by Andrei Neagoie </b><br>
 <i> 25 hours </i>
 <br>

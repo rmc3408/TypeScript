@@ -1,37 +1,50 @@
 interface ValidatorConfig {
-  [property: string]: { [validatableProp: string]: string[] }; // ['required', 'positive']
+  [property: string]: { [validatableProp: string]: string[] };
+  // a : { b: ['required', 'positive'] }
+}
+const validObj: ValidatorConfig = {}
+
+
+// Property decorator
+function Requiring(target: any, propName: string) {
+  console.log('Requiring function', propName)
+
+  const propA = target.constructor.name
+  let valuePropA = ['']
+  switch (propName) {
+    case 'title':
+      valuePropA = ['required']
+      break;
+    case 'price':
+      valuePropA = ['positive']
+      break;
+    default:
+      break;
+  }
+  validObj[propA] = {
+    ...validObj[propA],
+    [propName]: valuePropA,
+  }
 }
 
-const registeredValidators: ValidatorConfig = {};
 
-function Required(target: any, propName: string) {
-  registeredValidators[target.constructor.name] = {
-    ...registeredValidators[target.constructor.name],
-    [propName]: ["required"],
-  };
-}
-
-function PositiveNumber(target: any, propName: string) {
-  registeredValidators[target.constructor.name] = {
-    ...registeredValidators[target.constructor.name],
-    [propName]: ["positive"],
-  };
-}
-
-function validate(obj: any) {
-  const objValidatorConfig = registeredValidators[obj.constructor.name];
-  if (!objValidatorConfig) {
+function validate(courseObj: any) {
+  const obj = validObj[courseObj.constructor.name];
+  if (!obj) {
     return true;
   }
+
   let isValid = true;
-  for (const prop in objValidatorConfig) {
-    for (const validator of objValidatorConfig[prop]) {
+
+  for (let prop in obj) {
+    for (const validator of obj[prop]) {
+      //console.log(validator, prop)
       switch (validator) {
         case "required":
-          isValid = isValid && !!obj[prop];
+          isValid = isValid && !!courseObj[prop];
           break;
         case "positive":
-          isValid = isValid && obj[prop] > 0;
+          isValid = isValid && courseObj[prop] > 0;
           break;
       }
     }
@@ -40,9 +53,11 @@ function validate(obj: any) {
 }
 
 class Course {
-  @Required
+
+  @Requiring
   title: string;
-  @PositiveNumber
+
+  @Requiring
   price: number;
 
   constructor(t: string, p: number) {
@@ -63,9 +78,9 @@ courseForm.addEventListener("submit", (event) => {
 
   const createdCourse = new Course(title, price);
 
-  //   if (!validate(createdCourse)) {
-  //     alert('Invalid input, please try again!');
-  //     return;
-  //   }
+  if (!validate(createdCourse)) {
+    alert('Invalid input, please try again!');
+    return;
+  }
   console.log(createdCourse);
 });

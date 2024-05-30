@@ -1,5 +1,20 @@
 # TypeScript and Javascript
 
+## [Master the Coding Interview: Data Structures + Algorithms](https://www.udemy.com/course/master-the-coding-interview-data-structures-algorithms/)
+![title](./master-coding-interview/mastercoding.png)
+<b> Created by Andrei Neagoie </b><br>
+<i> 20 hours </i>
+<br>
+<br>
+<br>
+
+Section | Name  | Duration(min)
+----|------------------| ---------
+01 | Introduction  | 16
+02 | Getting more interviews | 81
+03 | Big O | 114
+
+
 ## [Advanced Javascript 2023](https://www.youtube.com/watch?v=kGbbPBRFCE0&list=PL-R1FQNkywO4sD42B6OI6KjG3uOPT0aNl)
 <b> Created by Brazilian Dev </b><br>
 <i> 6.16 hours </i>

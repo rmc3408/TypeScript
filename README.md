@@ -13,6 +13,15 @@ Section | Name  | Duration(min)
 01 | Introduction  | 16
 02 | Getting more interviews | 81
 03 | Big O | 114
+04 | How to Solve Coding Problems | 63
+
+05 | Data Structures: Intro | 27
+06 | Data Structures: Arrays | 95
+07 | Data Structures: Hash Tables | 77
+08 | Data Structures: Linked List | 96
+09 | Data Structures: Stacks + Queues | 71
+10 | Data Structures: Trees | 80
+11 | Data Structures: Graphs | 29
 
 
 ## [Advanced Javascript 2023](https://www.youtube.com/watch?v=kGbbPBRFCE0&list=PL-R1FQNkywO4sD42B6OI6KjG3uOPT0aNl)

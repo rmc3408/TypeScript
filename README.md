@@ -14,15 +14,22 @@ Section | Name  | Duration(min)
 02 | Getting more interviews | 81
 03 | Big O | 114
 04 | How to Solve Coding Problems | 63
-
 05 | Data Structures: Intro | 27
 06 | Data Structures: Arrays | 95
+
 07 | Data Structures: Hash Tables | 77
 08 | Data Structures: Linked List | 96
 09 | Data Structures: Stacks + Queues | 71
 10 | Data Structures: Trees | 80
 11 | Data Structures: Graphs | 29
-
+12 | Algorithms: Recursion | 61
+13 | Algorithms: Sorting | 82
+14 | Algorithms: Searching | 80
+15 | Algorithms: Dynamic Programming | 39
+16 | Non-technical Interviews | 52
+17 | Offer & negotiation | 43
+18 | Thank you | 2
+19 | Extras: Google, Amazon Questions | 52
 
 ## [Advanced Javascript 2023](https://www.youtube.com/watch?v=kGbbPBRFCE0&list=PL-R1FQNkywO4sD42B6OI6KjG3uOPT0aNl)
 <b> Created by Brazilian Dev </b><br>
